@@ -160,7 +160,7 @@ uint8_t gcode_parse_char(uint8_t c) {
             }
           #endif
 					if (DEBUG_ECHO && (debug_flags & DEBUG_ECHO))
-						serwrite_uint8(next_target.M);
+						serwrite_uint16(next_target.M);
 					break;
 				#ifdef DELTA_PRINTER
 				case 'H':
