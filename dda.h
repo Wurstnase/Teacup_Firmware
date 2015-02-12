@@ -11,6 +11,15 @@
 	#endif
 #endif
 
+#ifdef DELTA_PRINTER
+extern const int32_t delta_tower1_x,delta_tower1_y;
+extern const int32_t delta_tower2_x,delta_tower2_y;
+extern const int32_t delta_tower3_x,delta_tower3_y;
+extern const uint32_t DELTA_DIAGONAL_ROD_2;
+extern int32_t endstop_adj_x,endstop_adj_y,endstop_adj_z;
+extern int32_t delta_height;
+extern uint8_t bypass_delta;
+#endif
 
 // Enum to denote an axis
 enum axis_e { X = 0, Y, Z, E, AXIS_COUNT };
