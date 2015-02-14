@@ -14,6 +14,7 @@
 #include	"heater.h"
 #include	"serial.h"
 #include "display.h"
+#include        "temp.h"
 #ifdef	TEMP_INTERCOM
 	#include	"intercom.h"
 #endif
@@ -105,6 +106,42 @@ static void clock_250ms(void) {
         wait_for_temp = 0;
       }
     }
+
+    // TODO: remove LCD stuff
+		#ifdef LCD
+		   if (queue_empty() != 0) {
+		      update_current_position();
+                       lcdGoToAddr(0x00);
+                       lcdsendf_P(PSTR("X       "));
+                       lcdGoToAddr(0x01);
+                       lcdsendf_P(PSTR("%lq"),
+		                 current_position.axis[X]);
+                       #ifdef HEATER_EXTRUDER
+                           lcdGoToAddr(0xD);
+                           lcdsendf_P(PSTR("       "));
+                           lcdGoToAddr(0x09);
+                           lcdsendf_P(PSTR("Ext:"));
+                           temp_lcd(HEATER_EXTRUDER);
+                       #endif
+                       lcdGoToAddr(0x40);
+                       lcdsendf_P(PSTR("Y       "));
+                       lcdGoToAddr(0x41);
+                       lcdsendf_P(PSTR("%lq"),
+		                 current_position.axis[Y]);
+                       #ifdef HEATER_EXTRUDER
+                           lcdGoToAddr(0x4D);
+                           lcdsendf_P(PSTR("       "));
+                           lcdGoToAddr(0x49);
+                           lcdsendf_P(PSTR("Bed:"));
+                           temp_lcd(HEATER_BED);
+                       #endif
+                       lcdGoToAddr(0x14);
+                       lcdsendf_P(PSTR("Z       "));
+                       lcdGoToAddr(0x15);
+                       lcdsendf_P(PSTR("%lq"),
+		                 current_position.axis[Z]);
+		   }
+		#endif
 
 		if (DEBUG_POSITION && (debug_flags & DEBUG_POSITION)) {
 			// current position

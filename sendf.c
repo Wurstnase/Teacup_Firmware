@@ -8,6 +8,11 @@
 #include "sendf.h"
 #include "msg.h"
 
+// TODO remove LCD stuff
+#ifdef LCD
+#include	"lcdmsg.h"
+#endif
+
 
 /** \brief Simplified printf
 
@@ -124,3 +129,72 @@ void sendf_P(void (*writechar)(uint8_t), PGM_P format_P, ...) {
 	}
 	va_end(args);
 }
+
+#ifdef LCD
+void lcdsendf_P(PGM_P format_P, ...) {
+	va_list args;
+	va_start(args, format_P);
+
+	uint16_t i = 0;
+	uint8_t c = 1, j = 0;
+	while ((c = pgm_read_byte(&format_P[i++]))) {
+		if (j) {
+			switch(c) {
+				case 's':
+					j = 1;
+					break;
+				case 'l':
+					j = 4;
+					break;
+				case 'u':
+					if (j == 4)
+            lcdwrite_uint32(GET_ARG(uint32_t));
+					else
+            lcdwrite_uint16(GET_ARG(uint16_t));
+					j = 0;
+					break;
+				case 'd':
+					if (j == 4)
+            lcdwrite_int32(GET_ARG(int32_t));
+					else
+            lcdwrite_int16(GET_ARG(int16_t));
+					j = 0;
+					break;
+				case 'c':
+          lcdWriteText(GET_ARG(uint16_t));
+					j = 0;
+					break;
+				case 'x':
+					lcdWriteText("0x");
+					if (j == 4)
+            lcdwrite_hex32(GET_ARG(uint32_t));
+					else if (j == 1)
+            lcdwrite_hex8(GET_ARG(uint16_t));
+					else
+            lcdwrite_hex16(GET_ARG(uint16_t));
+					j = 0;
+					break;
+/*				case 'p':
+          serwrite_hex16(GET_ARG(uint16_t));*/
+				case 'q':
+          lcdwrite_int32_vf(GET_ARG(uint32_t), 3);
+					j = 0;
+					break;
+				default:
+					lcdWriteChar(&c);
+					j = 0;
+					break;
+			}
+		}
+		else {
+			if (c == '%') {
+				j = 2;
+			}
+			else {
+				lcdWriteChar(&c);
+			}
+		}
+	}
+	va_end(args);
+}
+#endif
