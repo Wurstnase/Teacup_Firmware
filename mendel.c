@@ -46,6 +46,8 @@
 #include "spi.h"
 #include "sd.h"
 #include "display.h"
+// TODO: remove LCD
+#include "SimpleLCD.h"
 
 #ifdef SIMINFO
   #include "../simulavr/src/simulavr_info.h"
@@ -118,6 +120,14 @@ void init(void) {
   #ifdef DISPLAY
     display_init();
     display_greeting();
+  #endif
+  // TODO: remove LCD stuff
+  // It is deprecated. We have now DISPLAY.
+	#ifdef LCD
+	// initialize LCD
+	lcdInit();
+	lcdClear();
+	lcdWriteText("LCD Init");
   #endif
 
 	// say hi to host
