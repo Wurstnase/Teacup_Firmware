@@ -623,6 +623,7 @@ static void single_temp_print(temp_sensor_t index) {
   #endif
 }
 
+#ifdef LCD
 static void single_temp_lcd(temp_sensor_t index) {
 	uint8_t c = (temp_sensors_runtime[index].last_read_temp & 3) * 25;
 	lcdsendf_P(PSTR("%u"), temp_sensors_runtime[index].last_read_temp >> 2);
@@ -632,6 +633,7 @@ static void single_temp_lcd(temp_sensor_t index) {
     lcdsendf_P(PSTR("%u"), temp_sensors_runtime[index].target_temp >> 2);
   #endif
 }
+#endif
 
 /// send temperatures to host
 /// \param index sensor value to send
@@ -656,6 +658,7 @@ void temp_print(temp_sensor_t index) {
   serial_writechar('\n');
 }
 
+#ifdef LCD
 void temp_lcd(temp_sensor_t index) {
 
 	if (index == TEMP_SENSOR_none) { // standard behaviour
@@ -675,4 +678,5 @@ void temp_lcd(temp_sensor_t index) {
 		single_temp_lcd(index);
 	}
 }
-#endif
+#endif //LCD
+#endif //ifndef EXTRUDER
