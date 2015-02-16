@@ -37,7 +37,6 @@ inline void enqueue(TARGET *t) {
   #else
   enqueue_home(t, 0, 0);
   #endif
-
 }
 
 // print queue status
