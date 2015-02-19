@@ -15,7 +15,6 @@
 #include "serial-arm.c"
 #undef TEACUP_C_INCLUDE
 
-
 /// send a string- look for null byte instead of expecting a length
 void serial_writestr(uint8_t *data)
 {

@@ -1,10 +1,9 @@
-#include	"home.h"
-
 /** \file
 	\brief Homing routines
 */
 
 #include <math.h>
+#include	"home.h"
 #include	"dda.h"
 #include	"dda_queue.h"
 #include	"pinio.h"
