@@ -4,6 +4,7 @@
 
 #include "dda.h"
 #include "timer.h"
+#include        "dda_delta_segments.h"
 
 
 /*

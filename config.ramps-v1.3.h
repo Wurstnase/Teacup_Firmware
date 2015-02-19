@@ -67,8 +67,10 @@
 //***** Delta Settings *****
 #define DELTA_PRINTER
 #define KINEMATICS_DELTA
-#define DELTA_SEGMENTS_PER_SECOND 100
-#define DELTA_SEGMENT_UM 1000 //instead of segmenting on move time, it segments based on maximum um per segment
+//#define DELTA_TIME_SEGMENTS
+#define DELTA_DISTANCE_SEGMENTS
+#define DELTA_SEGMENTS_PER_SECOND 200
+#define DELTA_SEGMENT_UM 500 //instead of segmenting on move time, it segments based on maximum um per segment
 #define DEFAULT_DELTA_DIAGONAL_ROD 288090 // um
 #define DEFAULT_DELTA_DIAGONAL_ROD_2 DEFAULT_DELTA_DIAGONAL_ROD * DEFAULT_DELTA_DIAGONAL_ROD
 #define DEFAULT_DELTA_RADIUS 170550       //um
@@ -371,14 +373,14 @@
 
   Unit: degree Celsius
 */
-#define TEMP_HYSTERESIS 10
+#define TEMP_HYSTERESIS 5
 
 /**
 	TEMP_RESIDENCY_TIME: actual temperature must be close to target (within
 	set temperature +- TEMP_HYSTERESIS) for this long before target is achieved
 	(and a M116 succeeds). Unit is seconds.
 */
-#define	TEMP_RESIDENCY_TIME		60
+#define	TEMP_RESIDENCY_TIME	10
 
 /**
   TEMP_EWMA: Smooth noisy temperature sensors. Good hardware shouldn't be
@@ -501,7 +503,7 @@ DEFINE_HEATER(extruder, PB4,   1)
   115200, other common values are 19200, 38400 or 57600. Ignored when USB_SERIAL
   is defined.
 */
-#define BAUD 115200
+#define BAUD 250000  //was 115200
 
 /** \def USB_SERIAL
   Define this for using USB instead of the serial RS232 protocol. Works on
