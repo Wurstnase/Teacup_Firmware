@@ -43,7 +43,7 @@
 	\var heaters_pid
 	\brief this struct holds the heater PID factors
 
-	PID is a fascinating way to control any closed loop control, combining the error (P), cumulative error (I) and rate at which we're approacing the setpoint (D) in such a way that when correctly tuned, the system will achieve target temperature quickly and with little to no overshoot
+	PID is a fascinating way to control any closed loop control, combining the error (P), cumulative error (I) and rate at which we're approaching the setpoint (D) in such a way that when correctly tuned, the system will achieve target temperature quickly and with little to no overshoot
 
 	At every sample, we calculate \f$OUT = k_P (S - T) + k_I \int (S - T) + k_D \frac{dT}{dt}\f$ where S is setpoint and T is temperature.
 
