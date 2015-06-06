@@ -53,6 +53,9 @@
             sqrt((double)2 * ACCELERATION * ENDSTOP_CLEARANCE_Z / 1000.))
 #endif
 
+#ifdef DELTA_PRINTER
+  static void home_delta(void);
+#endif
 
 /// home all 3 axes
 void home() {
