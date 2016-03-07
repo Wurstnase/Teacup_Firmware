@@ -5,7 +5,9 @@
 */
 
 #include	<string.h>
-
+#include	<stdlib.h>
+#include	<avr/eeprom.h>
+#include	<avr/pgmspace.h>
 #include	"serial.h"
 #include	"sermsg.h"
 #include	"dda_queue.h"
@@ -165,13 +167,19 @@ uint8_t gcode_parse_char(uint8_t c) {
 				#ifdef DELTA_PRINTER
 				case 'H':
           delta_height = decfloat_to_int(&read_digit, 1000);
+					#ifdef EECONFIG
+					dda_save_h_adj();
+					#endif //EECONFIG
           break;
-        #endif
+				#endif //DELTA_PRINTER
 				case 'X':
           if (next_target.M == 666) {
              #ifdef DELTA_PRINTER
              endstop_adj_x = decfloat_to_int(&read_digit, 1000);
-             #endif
+						#ifdef EECONFIG
+						dda_save_x_adj();
+						#endif //EECONFIG
+						#endif //DELTA_PRINTER
           }
           else {
 					if (next_target.option_inches)
@@ -186,7 +194,10 @@ uint8_t gcode_parse_char(uint8_t c) {
           if (next_target.M == 666){
              #ifdef DELTA_PRINTER
              endstop_adj_y = decfloat_to_int(&read_digit, 1000);
-             #endif
+						#ifdef EECONFIG
+						dda_save_y_adj();
+						#endif //EECONFIG
+						#endif //DELTA_PRINTER
           }
           else {
 					if (next_target.option_inches)
@@ -201,7 +212,10 @@ uint8_t gcode_parse_char(uint8_t c) {
           if (next_target.M == 666){
              #ifdef DELTA_PRINTER
              endstop_adj_z = decfloat_to_int(&read_digit, 1000);
-             #endif
+						#ifdef EECONFIG
+						dda_save_z_adj();
+						#endif //EECONFIG
+						#endif //DELTA_PRINTER
           }
           else {
 					if (next_target.option_inches)
