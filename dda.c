@@ -37,12 +37,12 @@
 const uint32_t delta_diagonal_rod   = (DEFAULT_DELTA_DIAGONAL_ROD >> 4);
 const uint32_t DELTA_DIAGONAL_ROD_2 = (DEFAULT_DELTA_DIAGONAL_ROD >> 4) * (DEFAULT_DELTA_DIAGONAL_ROD >> 4);
 
-const int32_t delta_tower1_x       = (int32_t)(-0.86602540378443864676372317075294 * DEFAULT_DELTA_RADIUS) >> 4;
-const int32_t delta_tower1_y       = (int32_t)(-0.5 * DEFAULT_DELTA_RADIUS) >> 4;
-const int32_t delta_tower2_x       = (int32_t)( 0.86602540378443864676372317075294 * DEFAULT_DELTA_RADIUS) >> 4;
-const int32_t delta_tower2_y       = (int32_t)(-0.5 * DEFAULT_DELTA_RADIUS) >> 4;
-const int32_t delta_tower3_x       = (int32_t)( 0.0 * DEFAULT_DELTA_RADIUS) >> 4;
-const int32_t delta_tower3_y       = (DEFAULT_DELTA_RADIUS >> 4);
+const int32_t delta_tower1_x       = (int32_t)(COS(DegToRad(TOWER_X_ANGLE_DEG)) * DEFAULT_DELTA_RADIUS) >> 4;
+const int32_t delta_tower1_y       = (int32_t)(SIN(DegToRad(TOWER_X_ANGLE_DEG)) * DEFAULT_DELTA_RADIUS) >> 4;
+const int32_t delta_tower2_x       = (int32_t)(COS(DegToRad(TOWER_Y_ANGLE_DEG)) * DEFAULT_DELTA_RADIUS) >> 4;
+const int32_t delta_tower2_y       = (int32_t)(SIN(DegToRad(TOWER_Y_ANGLE_DEG)) * DEFAULT_DELTA_RADIUS) >> 4;
+const int32_t delta_tower3_x       = (int32_t)(COS(DegToRad(TOWER_Z_ANGLE_DEG)) * DEFAULT_DELTA_RADIUS) >> 4;
+const int32_t delta_tower3_y       = (int32_t)(SIN(DegToRad(TOWER_Z_ANGLE_DEG)) * DEFAULT_DELTA_RADIUS) >> 4;
 int32_t delta_radius         = (DEFAULT_DELTA_RADIUS >> 4);
 int32_t delta_height = Z_MAX * 1000;
 int32_t endstop_adj_x;
