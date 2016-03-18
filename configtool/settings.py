@@ -37,6 +37,7 @@ class Settings:
     self.programflags = ""
     self.port = "/dev/ttyACM0"
     self.uploadspeed = 38400
+    self.uploadflags = "-D"
 
     self.t0 = 25;
     self.r1 = 0;
@@ -92,6 +93,8 @@ class Settings:
           self.minAdc = value
         elif opt == "uploadspeed":
           self.uploadspeed = value
+        elif opt == "uploadflags":
+          self.uploadflags = value
         else:
           print "Unknown %s option: %s - ignoring." % (self.section, opt)
     else:
@@ -168,6 +171,7 @@ class SettingsDlg(wx.Dialog):
                "omit the flag entirely, or simply ignore the related warnings."
     htLDFlags = "Flags passed to avr-gcc to be passed on to the linker."
     htObjCopy = "Flags passed to avr-objcopy."
+    htUlFlags = "Additional flags passed to avrdude."
     htProgrammer = "The programmer type - passed to avrdude."
     htProgramFlags = "Extra flags passed to avrdude."
     htPort = "The port to which the controller is connected. Typically a " \
@@ -193,6 +197,7 @@ class SettingsDlg(wx.Dialog):
                    ["AVR Upload Flags", settings.programflags, htProgramFlags],
                    ["Port", settings.port, htPort],
                    ["Upload Speed", settings.uploadspeed, htSpeed],
+                   ["Upload Flags", settings.uploadflags,htUlFlags],
                    ["Number of Temps", settings.numTemps, htNumTemps],
                    ["Minimum ADC value", settings.minAdc, htMinAdc],
                    ["Maximum ADC value", settings.maxAdc, htMaxAdc],
@@ -279,6 +284,7 @@ class SettingsDlg(wx.Dialog):
     self.settings.programflags = self.teList[PROGRAMFLAGS].GetValue()
     self.settings.port = self.teList[PORT].GetValue()
     self.settings.uploadspeed = self.teList[UPLOADSPEED].GetValue()
+    self.settings.uploadflags = self.teList[UPLOADFLAGS].GetValue()
     self.settings.numTemps = self.teList[NUMTEMPS].GetValue()
     self.settings.minAdc = self.teList[MINADC].GetValue()
     self.settings.maxAdc = self.teList[MAXADC].GetValue()
