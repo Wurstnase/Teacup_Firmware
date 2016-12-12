@@ -305,8 +305,7 @@ void dda_create(DDA *dda, const TARGET *target) {
 
       move_duration = distance * ((60 * F_CPU) / (dda->endpoint.F * 1000UL));
       for (i = X; i < AXIS_COUNT; i++) {
-        md_candidate = dda->delta[i] * ((60 * F_CPU) /
-                       (pgm_read_dword(&maximum_feedrate_P[i]) * 1000UL));
+        md_candidate = c_candidate(dda->delta[i], i);
         if (md_candidate > move_duration)
           move_duration = md_candidate;
       }
@@ -327,7 +326,6 @@ void dda_create(DDA *dda, const TARGET *target) {
 			// changed distance * 6000 .. * F_CPU / 100000 to
 			//         distance * 2400 .. * F_CPU / 40000 so we can move a distance of up to 1800mm without overflowing
 			uint32_t move_duration = ((distance * 2400) / dda->total_steps) * (F_CPU / 40000);
-		#endif
 
 		// similarly, find out how fast we can run our axes.
 		// do this for each axis individually, as the combined speed of two or more axes can be higher than the capabilities of a single one.
@@ -343,6 +341,7 @@ void dda_create(DDA *dda, const TARGET *target) {
         c_limit = c_limit_calc;
     }
     c_limit = c_limit / dda->total_steps * (F_CPU / 40000);
+    #endif
 
 		#ifdef ACCELERATION_REPRAP
 		// c is initial step time in IOclk ticks

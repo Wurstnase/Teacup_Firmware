@@ -31,6 +31,11 @@ const axes_uint32_t PROGMEM axis_qr_P = {
 /**
   Pre-calculated constant values for maximum feedrate conversions.
 */
+#if defined ACCELERATION_TEMPORAL
+  #define DIVIDEND_CONST (60UL * F_CPU / 1000)
+#else
+  #define DIVIDEND_CONST (2400UL)
+#endif
 const axes_uint32_t PROGMEM maximum_feedrate_P = {
   MAXIMUM_FEEDRATE_Y,
   MAXIMUM_FEEDRATE_X,
@@ -39,17 +44,17 @@ const axes_uint32_t PROGMEM maximum_feedrate_P = {
 };
 
 const axes_uint32_t PROGMEM maximum_feedrate_qn_P = {
-  2400L / MAXIMUM_FEEDRATE_X,
-  2400L / MAXIMUM_FEEDRATE_Y,
-  2400L / MAXIMUM_FEEDRATE_Z,
-  2400L / MAXIMUM_FEEDRATE_E
+  DIVIDEND_CONST / MAXIMUM_FEEDRATE_X,
+  DIVIDEND_CONST / MAXIMUM_FEEDRATE_Y,
+  DIVIDEND_CONST / MAXIMUM_FEEDRATE_Z,
+  DIVIDEND_CONST / MAXIMUM_FEEDRATE_E
 };
 
 const axes_uint32_t PROGMEM maximum_feedrate_qr_P = {
-  2400L % MAXIMUM_FEEDRATE_X,
-  2400L % MAXIMUM_FEEDRATE_Y,
-  2400L % MAXIMUM_FEEDRATE_Z,
-  2400L % MAXIMUM_FEEDRATE_E
+  DIVIDEND_CONST % MAXIMUM_FEEDRATE_X,
+  DIVIDEND_CONST % MAXIMUM_FEEDRATE_Y,
+  DIVIDEND_CONST % MAXIMUM_FEEDRATE_Z,
+  DIVIDEND_CONST % MAXIMUM_FEEDRATE_E
 };
 
 /*!
