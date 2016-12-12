@@ -49,15 +49,6 @@ TARGET BSS current_position;
 /// \brief numbers for tracking the current state of movement
 MOVE_STATE BSS move_state;
 
-/// \var maximum_feedrate_P
-/// \brief maximum allowed feedrate on each axis
-static const axes_uint32_t PROGMEM maximum_feedrate_P = {
-  MAXIMUM_FEEDRATE_X,
-  MAXIMUM_FEEDRATE_Y,
-  MAXIMUM_FEEDRATE_Z,
-  MAXIMUM_FEEDRATE_E
-};
-
 /// \var c0_P
 /// \brief Initialization constant for the ramping algorithm. Timer cycles for
 ///        first step interval.
@@ -344,11 +335,10 @@ void dda_create(DDA *dda, const TARGET *target) {
     //       to calculate (maximum) move_duration for each axis, like done for
     //       ACCELERATION_TEMPORAL above. This should make re-calculating the
     //       allowed F easier.
+    // c_candidate(delta_um[i], i) = (delta_um[i] * 2400L) / pgm_read_dword(&maximum_feedrate_P[i]);
     c_limit = 0;
     for (i = X; i < AXIS_COUNT; i++) {
-      c_limit_calc = (delta_um[i] * 2400L) /
-                     // dda->total_steps * (F_CPU / 40000) /
-                     pgm_read_dword(&maximum_feedrate_P[i]);
+      c_limit_calc = c_candidate(delta_um[i], i);
       if (c_limit_calc > c_limit)
         c_limit = c_limit_calc;
     }

@@ -34,6 +34,16 @@ inline int32_t um_to_steps(int32_t distance, enum axis_e a) {
                   pgm_read_dword(&axis_qr_P[a]), UM_PER_METER);
 }
 
+extern const axes_uint32_t PROGMEM maximum_feedrate_P;
+extern const axes_uint32_t PROGMEM maximum_feedrate_qn_P;
+extern const axes_uint32_t PROGMEM maximum_feedrate_qr_P;
+
+static int32_t c_candidate(int32_t, enum axis_e) __attribute__ ((always_inline));
+inline int32_t c_candidate(int32_t distance, enum axis_e a) {
+  return muldivQR(distance, pgm_read_dword(&maximum_feedrate_qn_P[a]),
+                  pgm_read_dword(&maximum_feedrate_qr_P[a]), pgm_read_dword(&maximum_feedrate_P[a]));
+}
+
 // approximate 2D distance
 uint32_t approx_distance(uint32_t dx, uint32_t dy);
 

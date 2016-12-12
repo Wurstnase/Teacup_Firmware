@@ -28,6 +28,30 @@ const axes_uint32_t PROGMEM axis_qr_P = {
   (uint32_t)STEPS_PER_M_E % UM_PER_METER
 };
 
+/**
+  Pre-calculated constant values for maximum feedrate conversions.
+*/
+const axes_uint32_t PROGMEM maximum_feedrate_P = {
+  MAXIMUM_FEEDRATE_Y,
+  MAXIMUM_FEEDRATE_X,
+  MAXIMUM_FEEDRATE_Z,
+  MAXIMUM_FEEDRATE_E
+};
+
+const axes_uint32_t PROGMEM maximum_feedrate_qn_P = {
+  2400L / MAXIMUM_FEEDRATE_X,
+  2400L / MAXIMUM_FEEDRATE_Y,
+  2400L / MAXIMUM_FEEDRATE_Z,
+  2400L / MAXIMUM_FEEDRATE_E
+};
+
+const axes_uint32_t PROGMEM maximum_feedrate_qr_P = {
+  2400L % MAXIMUM_FEEDRATE_X,
+  2400L % MAXIMUM_FEEDRATE_Y,
+  2400L % MAXIMUM_FEEDRATE_Z,
+  2400L % MAXIMUM_FEEDRATE_E
+};
+
 /*!
   Integer multiply-divide algorithm. Returns the same as muldiv(multiplicand, multiplier, divisor), but also allowing to use precalculated quotients and remainders.
 
