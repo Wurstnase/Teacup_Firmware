@@ -65,7 +65,13 @@ typedef struct {
     /// Pointer to the capture compare register which changes PWM duty.
     __IO uint32_t* ccr;
     /// Pointer to the port for non-PWM pins.
-    __IO uint32_t* bsrr;
+    union {
+      struct {
+        __IO uint16_t* bsrrl;
+        __IO uint16_t* bsrrh;
+      };
+      __IO uint32_t* bsrr;
+    };
   };
   uint16_t masked_pin;
 
@@ -79,13 +85,14 @@ typedef struct {
 // pwm == 0 is no pwm at all.
 // Use this macro only in DEFINE_HEATER_ACTUAL-macros.
 #define PWM_TYPE(pwm, pin) (((pwm) >= HARDWARE_PWM_START) ? ((pin ## _TIMER) ? HARDWARE_PWM : SOFTWARE_PWM) : (pwm))
+#define HEATER_POINTER(pwm, pin)
 
 #undef DEFINE_HEATER_ACTUAL
 #define DEFINE_HEATER_ACTUAL(name, pin, invert, pwm, max_value) \
   {                                                             \
     { (PWM_TYPE(pwm, pin) == HARDWARE_PWM) ?                    \
       &(pin ## _TIMER-> EXPANDER(CCR, pin ## _CHANNEL,)) :      \
-      &(pin ## _PORT->BSRR) },                                  \
+      (uint32_t*)&(pin ## _PORT->BSRRL) },                      \
     MASK(pin ## _PIN),                                          \
     (PWM_TYPE(pwm, pin) != SOFTWARE_PWM) ?                      \
       ((max_value * 64 + 12) / 25) :                            \
@@ -252,10 +259,12 @@ void do_heater(heater_t index, uint8_t value) {
         sersendf_P(PSTR("PWM %su = %lu\n"), index, *heaters[index].ccr);
     }
     else {
-      *(heaters[index].bsrr) =
-        heaters[index].masked_pin <<
-          ((value >= HEATER_THRESHOLD && ! heaters[index].invert) ?
-          0 : 16);
+      if (value >= HEATER_THRESHOLD && ! heaters[index].invert) {
+        *(heaters[index].bsrrl) = heaters[index].masked_pin;
+      }
+      else {
+        *(heaters[index].bsrrh) = heaters[index].masked_pin;
+      }
     }
     if (value)
       power_on();

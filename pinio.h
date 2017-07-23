@@ -121,9 +121,9 @@
   #define _WRITE(IO, v) \
     do { \
       if (v) \
-      	IO ## _PORT->BSRR = MASK(IO ## _PIN); \
+	IO ## _PORT->BSRRL = MASK(IO ## _PIN); \
       else \
-      	IO ## _PORT->BSRR = MASK((IO ## _PIN + 16)); \
+	IO ## _PORT->BSRRH = MASK((IO ## _PIN)); \
     } while (0)
 
   /** 
